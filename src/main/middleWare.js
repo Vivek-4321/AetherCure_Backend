@@ -226,7 +226,7 @@ export const verifyOtp = (secret, otp) => {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          from: 'your-email@yourdomain.com',
+          from: 'onboarding@resend.dev',
           to: email,
           subject: subject,
           html: message
