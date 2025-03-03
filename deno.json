@@ -1,0 +1,29 @@
+{
+    "tasks": {
+      "run": "deno run --allow-net --allow-read --allow-env --env-file=.env --import-map=import_map.json main.js",
+       "start":"deno run --allow-net --allow-read --allow-env --env-file=.env  main.js ",
+       "manualMigrate":" deno run --allow-net --allow-read --allow-env manualMigrateScript.ts"
+    },"imports": {
+        "dotenv": "npm:dotenv@^16.4.7",
+        "@types/pg": "npm:@types/pg@^8.11.10",
+        "drizzle-kit": "npm:drizzle-kit@^0.30.1",
+        "drizzle-orm": "npm:drizzle-orm@^0.38.3",
+        "pg": "npm:pg@^8.13.1",
+    "fs":"jsr:@std/fs",
+    "drizzle": "https://deno.land/x/drizzle@v0.23.85/mod.ts",
+     "drizzle-orm/pg-core": "https://deno.land/x/drizzle@v0.23.85/pg-core.ts",
+      "drizzle-orm/postgres-js": "https://deno.land/x/drizzle@v0.23.85/postgres.ts",
+       "drizzle-orm/expressions": "https://deno.land/x/drizzle@v0.23.85/expressions.ts", 
+    "drizzle-orm/sql": "https://deno.land/x/drizzle@v0.23.85/sql.ts",
+    "dpg": "https://deno.land/x/postgres@v0.19.3/mod.ts",
+    "DenoDotenv":"jsr:@std/dotenv",
+    "otpauth":"jsr:@hectorm/otpauth",
+    "oak": "https://deno.land/x/oak@v17.1.3/mod.ts",
+    "oakCors": "https://deno.land/x/cors@v1.2.2/mod.ts",
+    "bcrypt": "https://deno.land/x/bcrypt@v0.4.1/mod.ts",
+    "denomailer": "https://deno.land/x/denomailer/mod.ts",
+    "smtp":"https://deno.land/x/smtp@v0.7.0/mod.ts",
+    "djwt": "https://deno.land/x/djwt@v3.0.2/mod.ts"
+  }
+  }
+  

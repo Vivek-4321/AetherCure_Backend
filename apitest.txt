@@ -1,0 +1,26 @@
+signUp 
+{"email":"thejustice33mee7@gmail.com","username":"hsasdsd","password":"y7asnblas3us3f833mnjd"}
+verify
+ {"otp":"902695","id":"8002f91d-d057-464b-92be-45eaf01cb406"}
+ delete
+  {"userId":"63493b1a-6b7c-42cb-a535-db069870985b"}
+login
+{"email":"thejustice33mee7@gmail.com","password":"y7asnblas3us3f833mnjd"}
+update
+{"userId":"84e14a92-d621-4016-9289-8fc4c2089570","newUserData":{"userName":"baka"}}
+forgot
+ {"email":"thejustice33mee7@gmail.com"}
+resetverify
+{"resetId":"cda1959c-7d96-4fb9-beaa-3290d9f82b0a","newPassword":"jallumittayi"}
+resetPassword
+{"email":"thejustice33mee7@gmail.com"}
+
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImJpbHUiLCJlbWFpbCI6ImFtZWVudGE0MUBnbWFpbC5jb20iLCJwYXNzd29yZCI6IiQyYSQxMCR2cnNiandJWGguZ1BnNWFmcEJmWHouOFNhbndYbGFFem1zNkRCek55V2l4OFU3R2dkZHNqMiIsImV4cCI6MTczNTczODA5NX0.XS8bQM0kmBekMkxt-blR9_ZU84ec0PACtLYP0VGJjwE
+
+//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhzYXNkc2QiLCJlbWFpbCI6InRoZWp1c3RpY2UzM21lZTdAZ21haWwuY29tIiwicGFzc3dvcmQiOiIkMmEkMTAkSUwvSUdNR01ERDhVS1o1SHpEOVpPTzhkMlloMjhKZHpobk1WNERvZEgxeDlhb2kvL04vaHEiLCJleHAiOjE3MzU3Mzg5NzV9.qzlddT_pqTGn71r8E2qFdzq8Kvw5wwFC_Dp7bAXcsEI
+//todo
+  retry system 
+  catch server 
+  code prettier indentation etc
+  files and symptoms apis model and bot apis
+  bct
