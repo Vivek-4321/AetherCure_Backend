@@ -216,30 +216,35 @@ export const verifyOtp = (secret, otp) => {
     }
   };
 
-export const sendEMail = async (email, subject, message) => {
-  try {
-    const client = new SMTPClient({ connection: { 
-      hostname: "smtp.gmail.com",
-       port: 465,
-        tls: true,
-         auth: {
-           username: Deno.env.get("MYMAIL"),
-            password: Deno.env.get("MAILPASS"),
-           },
-           },});
-  await client.send({ from: Deno.env.get('MYMAIL'),
-     to: email, 
-     subject: subject, 
-     content: message});
-
-
-    await client.close();
-    return { message: 'Email sent successfully' };
-  } catch (error) {
-    console.error("Error in mailSending:", error);
-    throw new Error("Error in mailSending: " + error.message);
-  }
-};
+  export const sendEMail = async (email, subject, message) => {
+    try {
+      // Example using Resend.com - you'd need to sign up for an API key
+      const response = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${Deno.env.get("RESEND_API_KEY")}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          from: 'your-email@yourdomain.com',
+          to: email,
+          subject: subject,
+          html: message
+        })
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`Email API error: ${JSON.stringify(errorData)}`);
+      }
+  
+      return { message: 'Email sent successfully' };
+    } catch (error) {
+      console.error("Error in mailSending:", error);
+      throw new Error("Error in mailSending: " + error.message);
+    }
+  };
+  
 
   
 export const generateUniqueId =  () => {
