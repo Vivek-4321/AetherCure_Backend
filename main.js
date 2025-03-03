@@ -10,7 +10,7 @@ const app = new Application();
 // Enable CORS for all routes
 // Configure CORS with specific options
 app.use(oakCors({
-    origin: "http://localhost:5173", // Your frontend URL
+    origin: "https://aethercure.vercel.app", // Your frontend URL
     credentials: true, // Allow credentials
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"]
