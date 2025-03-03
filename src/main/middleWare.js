@@ -1,5 +1,5 @@
 import { create,verify,getNumericDate }  from 'djwt';
-import {hash,compare,genSalt} from 'bcrypt';
+// import {hash,compare,genSalt} from 'bcrypt';
 import * as OTPAuth from 'otpauth';
 import { SMTPClient } from 'denomailer';
 import {config} from "dotenv";
@@ -115,25 +115,106 @@ export const verifyOtp = (secret, otp) => {
   }
 };
   //hash and validate pass 
-export const hashPass = async (password) => {
-     try { 
-    const salt = await genSalt(10);
-      
-      return await hash(password, salt);
-   
-     }
-   catch (err) {
-     throw new Error('Error while hashing password'+err);
-    }}
-  export const validatePassword = async (pass, dbPass) => {
+  export const hashPass = async (password) => {
     try {
-      return await compare(pass, dbPass);
+      // Convert the password string to a buffer
+      const encoder = new TextEncoder();
+      const data = encoder.encode(password);
+      
+      // Generate a random salt
+      const salt = crypto.getRandomValues(new Uint8Array(16));
+      
+      // Derive a key using PBKDF2
+      const key = await crypto.subtle.importKey(
+        "raw",
+        data,
+        { name: "PBKDF2" },
+        false,
+        ["deriveBits", "deriveKey"]
+      );
+      
+      const derivedKey = await crypto.subtle.deriveKey(
+        {
+          name: "PBKDF2",
+          salt,
+          iterations: 100000,
+          hash: "SHA-256"
+        },
+        key,
+        { name: "HMAC", hash: "SHA-256", length: 256 },
+        true,
+        ["sign"]
+      );
+      
+      // Export the key to raw format
+      const keyBuffer = await crypto.subtle.exportKey("raw", derivedKey);
+      
+      // Combine salt and key
+      const result = new Uint8Array(salt.length + keyBuffer.byteLength);
+      result.set(salt, 0);
+      result.set(new Uint8Array(keyBuffer), salt.length);
+      
+      // Convert to base64 for storage
+      return btoa(String.fromCharCode(...result));
     } catch (err) {
-      throw new Error(`passwordValidation Error ${err}`);
+      throw new Error('Error while hashing password: ' + err);
+    }
+  };  
+  //sendmail
+
+  export const validatePassword = async (password, storedHash) => {
+    try {
+      // Decode the stored hash
+      const hashBuffer = Uint8Array.from(atob(storedHash), c => c.charCodeAt(0));
+      
+      // Extract the salt (first 16 bytes)
+      const salt = hashBuffer.slice(0, 16);
+      const storedKey = hashBuffer.slice(16);
+      
+      // Hash the provided password with the same salt
+      const encoder = new TextEncoder();
+      const data = encoder.encode(password);
+      
+      const key = await crypto.subtle.importKey(
+        "raw",
+        data,
+        { name: "PBKDF2" },
+        false,
+        ["deriveBits", "deriveKey"]
+      );
+      
+      const derivedKey = await crypto.subtle.deriveKey(
+        {
+          name: "PBKDF2",
+          salt,
+          iterations: 100000,
+          hash: "SHA-256"
+        },
+        key,
+        { name: "HMAC", hash: "SHA-256", length: 256 },
+        true,
+        ["sign"]
+      );
+      
+      const keyBuffer = await crypto.subtle.exportKey("raw", derivedKey);
+      const newKey = new Uint8Array(keyBuffer);
+      
+      // Compare the derived key with the stored key
+      if (storedKey.length !== newKey.length) {
+        return false;
+      }
+      
+      // Time-constant comparison to prevent timing attacks
+      let result = 0;
+      for (let i = 0; i < storedKey.length; i++) {
+        result |= storedKey[i] ^ newKey[i];
+      }
+      
+      return result === 0;
+    } catch (err) {
+      throw new Error(`Password validation error: ${err}`);
     }
   };
-  
-  //sendmail
 
 export const sendEMail = async (email, subject, message) => {
   try {
